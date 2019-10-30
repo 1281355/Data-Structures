@@ -1,5 +1,3 @@
-package com.company;
-
 /**
  * @author huangyu
  * @version 1.0
