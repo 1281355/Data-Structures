@@ -79,13 +79,13 @@ public class LinkedList<E> {
 
     }
 
-    /**
-     * 在连接末尾增加新的元素e
-     * @param e
-     */
-    public void addLast(E e){
-        add(size, e);
-    }
+        /**
+         * 在连接末尾增加新的元素e
+         * @param e
+         */
+        public void addLast(E e){
+            add(size, e);
+        }
 
     /**
      * 遍历
