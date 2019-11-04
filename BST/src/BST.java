@@ -156,6 +156,118 @@ public class BST<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * 寻找二分搜索树的最小元素
+     * @return
+     */
+    public E minimum(){
+       if(size == 0){
+           throw new IllegalArgumentException("BST is empty!");
+       }
+       return minimum(root).e;
+    }
+    public Node minimum(Node node){
+        if(node.left == null){
+            return node;
+        }
+        return minimum(node.left);
+    }
+
+
+    /**
+     * 寻找二分搜索树的最大元素
+     * @return
+     */
+    public E maxmum(){
+        if(size == 0){
+            throw new IllegalArgumentException("BST is empty!");
+        }
+        return maxmum(root).e;
+    }
+    public Node maxmum(Node node){
+        if(node.right == null){
+            return node;
+        }
+        return maxmum(node.right);
+    }
+
+    public E removeMin(){
+        E ret = minimum();
+        root = removeMin(root);
+        return ret;
+    }
+
+    private Node removeMin(Node node){
+        if(node.left == null){
+            Node rightNode = node.right;
+            node.right = null;
+            size --;
+            return rightNode;
+        }
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    public E removeMax(){
+        E ret = maxmum();
+        root = removeMax(root);
+        return ret;
+    }
+
+    private Node removeMax(Node node){
+        if(node.right == null){
+            Node rightNode = node.left;
+            node.left = null;
+            size --;
+            return rightNode;
+        }
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+
+    public Node remove(E e){
+       root = remove(root, e);
+       return root;
+    }
+
+    public Node remove(Node node, E e){
+        if(node == null){
+            return null;
+        }
+        if(e.compareTo(node.e) < 0){
+            node.left = remove(node.left, e);
+            return node;
+        }else if(e.compareTo(node.e) > 0){
+            node.right = remove(node.right, e);
+            return node;
+        }else {
+            //待删除左子树为空的情况
+            if(node.left == null){
+                Node rightNode = node.right;
+                node.right = null;
+                size --;
+                return rightNode;
+            }
+            //待删除右子树为空的情况
+            if(node.right == null){
+                Node leftNode = node.left;
+                node.left = null;
+                size --;
+                return leftNode;
+            }
+            //待删除结点左右子树均不为空的情况
+            //找到比待删除结点大的最小结点，即待删除结点右子树的最小结点
+            //用这个结点顶替待删除结点的位置
+            Node successor = maxmum(node.right);
+            successor.right = removeMax(node.right);
+            successor.left = node.left;
+
+            node.left = node.right = null;
+            return successor;
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
